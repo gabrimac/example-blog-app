@@ -4,8 +4,8 @@ describe PostsController do
 
   describe "GET index" do
 
-    it "populates an array of posts" do
-      post = FactoryGirl.create(:post)
+    it "populates an array of posts with publication date <= date right now" do
+      post = FactoryGirl.create(:post, publication_date: Time.now)
       get :index
       assigns(:posts).should eq([post])
     end
@@ -142,7 +142,7 @@ describe PostsController do
       end
 
       it "doesn`t change @post`s attributes" do
-        put :update, id: @post, post: FactoryGirl.attributes_for(:post, title: "updated post", body: nil)
+        put :update, id: @post, post: FactoryGirl.attributes_for(:post, title: nil, body: "Hackers seeking information about Washington’s elite posed as John R. Bolton, a former American ambassador, to friend online users through social media.")
         @post.reload
         @post.title.should_not eq("updated post")
         @post.body.should eq("Joni Ernst’s unconventional campaign for the Senate in Iowa has included ads highlighting her farm experience castrating hogs and being introduced at rallies by Mitt Romney")
