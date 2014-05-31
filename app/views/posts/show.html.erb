@@ -1,0 +1,71 @@
+<% if notice %>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="alert alert-info"><%= notice %></div>
+    </div>
+  </div>
+<% end %>
+
+<div class="row margin-top-posts">
+  <div class="col-md-3">
+    <%= @post.created_at %>
+  </div>
+  <div class="col-md-9">
+    <p>
+      <strong>Title:</strong>
+      <%= @post.title %>
+    </p>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <p>
+        <strong>Body:</strong>
+        <%= @post.body %>
+      </p>
+    </div>
+  </div>
+</div>
+
+<%= link_to 'Edit', edit_post_path(@post) %> |
+<%= link_to 'Back', posts_path %>
+
+<h3>Add comment</h3>
+
+<div class="comments_error">
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <%= form_for [@post, @new_comment], {remote: true, role: 'form'} do |c| %>
+      <%= c.label :username %>
+      <%= c.text_field :username, class: 'form-control' %>
+      <%= c.label :comment %>
+      <%= c.text_area :comment, class: 'form-control' %>
+      <%= c.submit "Save", class: 'btn btn-default' %>
+    <% end %>
+
+    <h3>Comments</h3>
+    <div class="row margin-top-comments">
+      <div class="col-md-12 comments">
+        <% @comments.each do |comment| %>
+          <div class="row">
+            <div class="col-md-10">
+              <div class="row" data-id="<%= comment.id %>">
+                <div class="col-md-2">
+                  <%= comment.username %>:
+                </div>
+                <div class="col-md-8">
+                  <%= comment.comment %>
+                </div>
+                <div class="col-md-2">
+                  <%= link_to 'Destroy Comment', [@post, comment] , method: :delete, data: {confirm: 'Are you sure?' }, remote: true %>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+
